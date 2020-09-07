@@ -1,0 +1,29 @@
+{
+  "name": "ssr-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LebeDEVBoris/ssr-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LebeDEVBoris/ssr-practice/issues"
+  },
+  "homepage": "https://github.com/LebeDEVBoris/ssr-practice#readme",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "next": "^9.5.3",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
