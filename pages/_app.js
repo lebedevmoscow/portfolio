@@ -9,7 +9,7 @@ const MyApp = ({Component, pageProps}) => {
     return (
         <div className="portfolio-app">
             <Navbar />
-            {Component.name === 'Home' && <Hero />}
+            {Component.name === 'Home' && <Hero />} 
             <div className="container">
                 <Component {...pageProps}/> 
             </div>
