@@ -1,4 +1,4 @@
-import {Navbar, Nav} from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import Link from 'next/link'
 
 const AppLink = (props) => {
@@ -14,7 +14,9 @@ const AppNavbar = () => {
         <div className="navbar-wrapper">
             <Navbar expand="lg" className="navbar-dark fj-mw9">
                 <Navbar.Brand>
-                    <AppLink className="navbar-brand mr-3 font-weight-bold" href="/">
+                    <AppLink
+                        className="navbar-brand mr-3 font-weight-bold"
+                        href="/">
                         Boris Lebedev
                     </AppLink>
                 </Navbar.Brand>
@@ -24,7 +26,9 @@ const AppNavbar = () => {
                         <AppLink href="/portfolios" className="nav-link mr-3">
                             Portfolios
                         </AppLink>
-                        <AppLink href="/forum/categories" className="nav-link mr-3">
+                        <AppLink
+                            href="/forum/categories"
+                            className="nav-link mr-3">
                             Forum
                         </AppLink>
                         <AppLink href="/cv" className="nav-link mr-3">
@@ -32,10 +36,12 @@ const AppNavbar = () => {
                         </AppLink>
                     </Nav>
                     <Nav>
-                        <AppLink href="/login" className="mr-3">
+                        <AppLink href="/register" className="mr-3 nav-link">
                             Sign Up
                         </AppLink>
-                        <AppLink href="/register" className="mr-3 btn btn-success bg-green-2 bright">
+                        <AppLink
+                            href="/login"
+                            className="mr-3 btn btn-success bg-green-2 bright">
                             Sign In
                         </AppLink>
                     </Nav>

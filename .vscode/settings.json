@@ -2,7 +2,10 @@
     "editor.codeActionsOnSave": {
         "source.fixAll": true
     },
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "javascript.format.enable": false,
     "material-icon-theme.activeIconPack": "react_redux",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
