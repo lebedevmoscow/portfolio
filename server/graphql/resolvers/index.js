@@ -1,4 +1,4 @@
-const data = {
+let data = {
     portfolios: [
         {
             _id: 'sad87da79',
@@ -61,10 +61,26 @@ exports.portfolioMutations = {
     },
 
     updatePortfolio: (root, { id, input }) => {
-        const index = data.portfolios.find((p) => p._id === id)
-        const oldPortfolio = data.portfolios[index]
-        const newPortfolio = { ...oldPortfolio, ...input }
-        data.portfolios[index] = newPortfolio
-        return newPortfolio
+        let index = 0
+        data.portfolios.find((p, idx) => {
+            if (p._id === id) index = idx
+        })
+        console.log('id', id)
+        console.log('index', index)
+        const updated = { _id: id, ...input }
+        data.portfolios[index] = updated
+        return updated
+    },
+
+    deletePortfolio: (root, { id }) => {
+        let updatedData = []
+
+        for (let i = 0; i < data.portfolios.length; i++) {
+            if (data.portfolios[i]._id !== id)
+                updatedData.push(data.portfolios[i])
+        }
+
+        data.portfolios = updatedData
+        return id
     },
 }
