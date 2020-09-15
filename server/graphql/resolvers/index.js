@@ -1,70 +1,43 @@
-const Portfolio = require('./../../database/models/portfolio')
-
-let data = {
-    portfolios: [
-        {
-            _id: 'sad87da79',
-            title: 'Job in Netcentric',
-            company: 'Netcentric',
-            companyWebsite: 'www.google.com',
-            location: 'Spain, Barcelona',
-            jobTitle: 'Engineer',
-            description: 'Doing something, programing....',
-            startDate: '01/01/2014',
-            endDate: '01/01/2016',
-        },
-        {
-            _id: 'da789ad1',
-            title: 'Job in Siemens',
-            company: 'Siemens',
-            companyWebsite: 'www.google.com',
-            location: 'Slovakia, Kosice',
-            jobTitle: 'Software Engineer',
-            description:
-                'Responsoble for parsing framework for JSON medical data.',
-            startDate: '01/01/2011',
-            endDate: '01/01/2013',
-        },
-        {
-            _id: 'sadcxv9',
-            title: 'Work in USA',
-            company: 'WhoKnows',
-            companyWebsite: 'www.google.com',
-            location: 'USA, Montana',
-            jobTitle: 'Housekeeping',
-            description: 'So much responsibility....Overloaaaaaad',
-            startDate: '01/01/2010',
-            endDate: '01/01/2011',
-        },
-    ],
-}
-
 exports.portfolioQueries = {
-    portfolio: (root, args) => {
-        return Portfolio.findById(args.id)
+    portfolio: (root, args, ctx) => {
+        return ctx.models.Portfolio.getById(args.id)
     },
-    portfolios: () => {
-        return Portfolio.find({})
+    portfolios: (root, args, ctx) => {
+        return ctx.models.Portfolio.getAll()
     },
 }
 
 exports.portfolioMutations = {
-    createPortfolio: async (root, { input }) => {
-        const createdPortfolio = await Portfolio.create(input)
+    createPortfolio: async (root, { input }, ctx) => {
+        const createdPortfolio = await ctx.models.Portfolio.create(input)
         return createdPortfolio
     },
 
-    updatePortfolio: async (root, { id, input }) => {
-        const updatedPortfolio = await Portfolio.findOneAndUpdate(
-            { _id: id },
-            input,
-            { new: true }
+    updatePortfolio: async (root, { id, input }, ctx) => {
+        const updatedPortfolio = await ctx.models.Portfolio.findAndUpdate(
+            id,
+            input
         )
         return updatedPortfolio
     },
 
-    deletePortfolio: async (root, { id }) => {
-        const deleted = await Portfolio.findOneAndRemove({ _id: id })
+    deletePortfolio: async (root, { id }, ctx) => {
+        const deleted = await ctx.models.Portfolio.findAndDelete(id)
         return deleted._id
+    },
+}
+
+exports.userMutations = {
+    signUp: async (root, args, ctx) => {
+        const registeredUser = await ctx.models.User.signUp(args.input)
+        return registeredUser._id
+    },
+
+    signIn: (root, args, ctx) => {
+        return ctx.models.User.signIn()
+    },
+
+    signOut: (root, args, ctx) => {
+        return ctx.models.User.signOut()
     },
 }
