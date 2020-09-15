@@ -1,40 +1,42 @@
 {
-  "name": "ssr-practice",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon --watch server server/index.js",
-    "build": "next build",
-    "start": "next start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LebeDEVBoris/ssr-practice.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LebeDEVBoris/ssr-practice/issues"
-  },
-  "homepage": "https://github.com/LebeDEVBoris/ssr-practice#readme",
-  "dependencies": {
-    "@apollo/react-hooks": "^3.1.3",
-    "@apollo/react-ssr": "^3.1.3",
-    "apollo-boost": "^0.4.7",
-    "apollo-server-express": "^2.10.1",
-    "axios": "^0.20.0",
-    "bootstrap": "^4.4.1",
-    "express": "^4.17.1",
-    "express-graphql": "^0.11.0",
-    "graphql": "^15.3.0",
-    "isomorphic-unfetch": "^3.0.0",
-    "next": "^9.5.3",
-    "next-with-apollo": "^5.0.0",
-    "node-sass": "^4.14.1",
-    "react": "^16.13.1",
-    "react-bootstrap": "^1.0.0-beta.16",
-    "react-dom": "^16.13.1"
-  }
+    "name": "ssr-practice",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon --watch server server/index.js",
+        "build": "next build",
+        "start": "next start",
+        "populateDb": "node server/fakeDb/populate.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/LebeDEVBoris/ssr-practice.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/LebeDEVBoris/ssr-practice/issues"
+    },
+    "homepage": "https://github.com/LebeDEVBoris/ssr-practice#readme",
+    "dependencies": {
+        "@apollo/react-hooks": "^3.1.3",
+        "@apollo/react-ssr": "^3.1.3",
+        "apollo-boost": "^0.4.7",
+        "apollo-server-express": "^2.10.1",
+        "axios": "^0.20.0",
+        "bootstrap": "^4.4.1",
+        "express": "^4.17.1",
+        "express-graphql": "^0.11.0",
+        "graphql": "^15.3.0",
+        "isomorphic-unfetch": "^3.0.0",
+        "mongoose": "^5.10.5",
+        "next": "^9.5.3",
+        "next-with-apollo": "^5.0.0",
+        "node-sass": "^4.14.1",
+        "react": "^16.13.1",
+        "react-bootstrap": "^1.0.0-beta.16",
+        "react-dom": "^16.13.1"
+    }
 }

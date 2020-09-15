@@ -1,3 +1,6 @@
+#env vars
+/server/config/dev.js
+
 #deps
 /node_modules
 /.pnp

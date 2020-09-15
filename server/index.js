@@ -1,7 +1,5 @@
 const express = require('express')
 const next = require('next')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
 
 const { ApolloServer, gql } = require('apollo-server-express')
 
@@ -15,6 +13,9 @@ const { portfolioQueries, portfolioMutations } = require('./graphql/resolvers')
 
 // types
 const { portfolioTypes } = require('./graphql/types')
+
+// connect to database
+require('./database').connect()
 
 app.prepare().then(() => {
     const server = express()
