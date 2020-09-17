@@ -34,10 +34,10 @@ exports.userMutations = {
     },
 
     signIn: (root, args, ctx) => {
-        return ctx.models.User.signIn()
+        return ctx.models.User.signIn(args.input, ctx)
     },
 
     signOut: (root, args, ctx) => {
-        return ctx.models.User.signOut()
+        return ctx.models.User.signOut(ctx)
     },
 }
