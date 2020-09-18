@@ -41,3 +41,9 @@ exports.userMutations = {
         return ctx.models.User.signOut(ctx)
     },
 }
+
+exports.userQueries = {
+    user: (root, args, ctx) => {
+        return ctx.models.User.getAuthUser(ctx)
+    },
+}
