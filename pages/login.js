@@ -4,7 +4,7 @@ import { useSignIn } from './../apollo/actions'
 import Redirect from './../components/shared/Redirect'
 
 const Login = () => {
-    const [signIn, { data, error }] = useSignIn()
+    const [signIn, { data, error, loading }] = useSignIn()
 
     const errorMessage = (err) => {
         return (

@@ -11,7 +11,7 @@ const withAuth = (WrappedComponent, role) => (props) => {
     }
 
     if (user) {
-        if (role && user.role !== role) {
+        if (role && !role.includes(user.role)) {
             return <Redirect to="/login" />
         }
         return <WrappedComponent {...props} />

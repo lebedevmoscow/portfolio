@@ -16,4 +16,4 @@ const Secret = () => {
     )
 }
 
-export default withApollo(withAuth(Secret, 'admin'))
+export default withApollo(withAuth(Secret, ['instructor']))
