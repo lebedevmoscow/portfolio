@@ -1,7 +1,21 @@
 import { useForm } from 'react-hook-form'
+import DatePicker from 'react-datepicker'
+import { useEffect, useState } from 'react'
 
 const PortfolioForm = ({ onSubmit }) => {
-    const { handleSubmit, register } = useForm()
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
+    const { handleSubmit, register, setValue } = useForm()
+
+    useEffect(() => {
+        register({ name: 'startDate' })
+        register({ name: 'endDate' })
+    }, [register])
+
+    const handleDateChange = (dateType, setDate) => (date) => {
+        setValue(dateType, date.toISOString())
+        setDate(date)
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -61,25 +75,35 @@ const PortfolioForm = ({ onSubmit }) => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="street">Start Date</label>
+                <label htmlFor="companyWebsite">Company Website</label>
                 <input
                     ref={register}
-                    name="startDate"
+                    name="companyWebsite"
                     type="text"
                     className="form-control"
-                    id="startDate"
-                />
+                    id="companyWebsite"></input>
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="street">Start Date</label>
+                <div>
+                    <DatePicker
+                        showYearDropdown
+                        selected={startDate}
+                        onChange={handleDateChange('startDate', setStartDate)}
+                    />
+                </div>
             </div>
 
             <div className="form-group">
                 <label htmlFor="street">End Date</label>
-                <input
-                    ref={register}
-                    name="endDate"
-                    type="text"
-                    className="form-control"
-                    id="endDate"
-                />
+                <div>
+                    <DatePicker
+                        showYearDropdown
+                        selected={endDate}
+                        onChange={handleDateChange('endDate', setEndDate)}
+                    />
+                </div>
             </div>
 
             <button type="submit" className="btn btn-primary">

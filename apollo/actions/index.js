@@ -4,6 +4,7 @@ import {
     UPDATE_PORTFOLIO,
     DELETE_PORTFOLIO,
     SIGN_IN,
+    SIGN_OUT,
     GET_USER,
 } from './../queries/index'
 import { useQuery, useMutation } from '@apollo/react-hooks'

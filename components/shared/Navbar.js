@@ -1,4 +1,4 @@
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import Link from 'next/link'
 import withApollo from './../../hoc/withApollo'
 import { useLazyGetUser } from './../../apollo/actions'
@@ -64,9 +64,31 @@ const AppNavbar = () => {
                         <Nav>
                             {user && (
                                 <>
-                                    <span className="nav-link mr-4">
+                                    <span className="nav-link mr-2">
                                         Welcome {user.username}
                                     </span>
+                                    <NavDropdown
+                                        className="mr-2"
+                                        title="Manage"
+                                        id="basic-nav-dropdown">
+                                        {(user.role === 'admin' ||
+                                            user.role === 'instructor') && (
+                                            <NavDropdown.Item href="portfolios/new">
+                                                Create Portfolio
+                                            </NavDropdown.Item>
+                                        )}
+
+                                        <NavDropdown.Item href="#">
+                                            Action
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item href="#">
+                                            Action
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item href="#">
+                                            Action
+                                        </NavDropdown.Item>
+                                    </NavDropdown>
                                     <AppLink
                                         href="/logout"
                                         className="btn btn-danger nav-link">
