@@ -5,6 +5,7 @@ export const GET_PORTFOLIO = gql`
         portfolio(id: $id) {
             _id
             title
+            daysOfExperience @client
             company
             companyWebsite
             location

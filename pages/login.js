@@ -3,9 +3,30 @@ import withApollo from './../hoc/withApollo'
 import { useSignIn } from './../apollo/actions'
 import Redirect from './../components/shared/Redirect'
 import BaseLayout from './../layouts/BaseLayout'
+import { useRouter } from 'next/router'
+import messages from './../variables/messages'
+import { useEffect, useRef } from 'react'
 
 const Login = () => {
+    const disposeId = useRef(null)
     const [signIn, { data, error, loading }] = useSignIn()
+
+    const router = useRouter()
+    const { message } = router.query
+
+    const disposeMessage = () => {
+        router.replace('/login', '/login', { shallow: true })
+    }
+    useEffect(() => {
+        if (message) {
+            disposeId.current = setTimeout(() => {
+                disposeMessage()
+            }, 3000)
+        }
+        return () => {
+            clearTimeout(disposeId.current)
+        }
+    }, [message])
 
     const errorMessage = (err) => {
         return (
@@ -20,6 +41,12 @@ const Login = () => {
                 <div className="row">
                     <div className="col-md-5 mx-auto">
                         <h1 className="page-title">Login</h1>
+                        {message && (
+                            <div
+                                className={`alert alert-${messages[message].status}`}>
+                                {messages[message].value}
+                            </div>
+                        )}
                         <LoginForm
                             loading={loading}
                             onSubmit={(signInData) => {
