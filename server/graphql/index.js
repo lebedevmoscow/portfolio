@@ -26,7 +26,7 @@ exports.createApolloServer = () => {
         type Query {
             portfolio(id: ID): Portfolio
             portfolios: [Portfolio]
-
+            userPortfolios: [Portfolio]
             user: User
         }
 

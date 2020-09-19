@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 const AppLink = (props) => {
     return (
-        <Link href={props.href}>
+        <Link href={props.href} as={props.as}>
             <a className={props.className}>{props.children}</a>
         </Link>
     )
@@ -73,9 +73,19 @@ const AppNavbar = () => {
                                         id="basic-nav-dropdown">
                                         {(user.role === 'admin' ||
                                             user.role === 'instructor') && (
-                                            <NavDropdown.Item href="portfolios/new">
-                                                Create Portfolio
-                                            </NavDropdown.Item>
+                                            <>
+                                                <AppLink
+                                                    href="/portfolios/new"
+                                                    className="dropdown-item">
+                                                    Create Portfolio
+                                                </AppLink>
+                                                <AppLink
+                                                    href="/instructor/[id]/dashboard"
+                                                    as={`/instructor/${user._id}/dashboard`}
+                                                    className="dropdown-item">
+                                                    Dashboard
+                                                </AppLink>
+                                            </>
                                         )}
 
                                         <NavDropdown.Item href="#">

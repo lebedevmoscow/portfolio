@@ -13,6 +13,12 @@ class Portfolio {
         return this.Model.findById(id)
     }
 
+    getAllByUser() {
+        return this.Model.find({ user: this.user._id }).sort({
+            startDate: 'desc',
+        })
+    }
+
     create(data) {
         if (!this.user || !this.writeRights.includes(this.user.role)) {
             throw new Error('Not authorize')
