@@ -51,3 +51,16 @@ exports.userQueries = {
         return ctx.models.User.getAuthUser(ctx)
     },
 }
+
+exports.forumQueries = {
+    forumCategories: (root, args, ctx) => {
+        return ctx.models.ForumCategory.getAll()
+    },
+
+    topicsByCategory: async (root, { category }, ctx) => {
+        const forumCategory = await ctx.models.ForumCategory.getBySlug(category)
+        if (forumCategory) {
+            return ctx.models.Topic.getAllByCategory(forumCategory._id)
+        }
+    },
+}
