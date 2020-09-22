@@ -173,3 +173,63 @@ export const SIGN_OUT = gql`
         signOut
     }
 `
+
+// FORUM QURIES
+
+export const FORUM_CATEGORIES = gql`
+    query ForumCategories {
+        forumCategories {
+            slug
+            title
+            subTitle
+        }
+    }
+`
+
+export const TOPICS_BY_CATEGORY = gql`
+    query TopicsByCategory($category: String) {
+        topicsByCategory(category: $category) {
+            _id
+            slug
+            title
+            content
+            user {
+                username
+                avatar
+            }
+            forumCategory {
+                _id
+                title
+                slug
+            }
+        }
+    }
+`
+
+export const CREATE_TOPIC = gql`
+    mutation CreateTopic(
+        $title: String
+        $content: String
+        $forumCategory: String
+    ) {
+        createTopic(
+            input: {
+                title: $title
+                content: $content
+                forumCategory: $forumCategory
+            }
+        ) {
+            _id
+            title
+            content
+            slug
+            user {
+                username
+                avatar
+            }
+            forumCategory {
+                slug
+            }
+        }
+    }
+`

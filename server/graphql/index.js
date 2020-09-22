@@ -8,6 +8,7 @@ const {
     userMutations,
     userQueries,
     forumQueries,
+    forumMutations,
 } = require('./resolvers')
 
 // types
@@ -44,6 +45,8 @@ exports.createApolloServer = () => {
             signUp(input: SignUpInput): String
             signIn(input: SignInInput): User
             signOut: Boolean
+
+            createTopic(input: TopicInput): Topic
         }
     `
 
@@ -56,6 +59,7 @@ exports.createApolloServer = () => {
         Mutation: {
             ...portfolioMutations,
             ...userMutations,
+            ...forumMutations,
         },
     }
 
@@ -74,7 +78,7 @@ exports.createApolloServer = () => {
                     ForumCategory: new ForumCategory(
                         mongoose.model('ForumCategory')
                     ),
-                    Topic: new Topic(mongoose.model('Topic')),
+                    Topic: new Topic(mongoose.model('Topic'), req.user),
                 },
             }
         },
