@@ -11,6 +11,7 @@ import {
     FORUM_CATEGORIES,
     TOPICS_BY_CATEGORY,
     CREATE_TOPIC,
+    TOPIC_BY_SLUG,
 } from './../queries/index'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { useLazyQuery } from 'react-apollo'
@@ -72,8 +73,30 @@ export const useGetUserPortfolios = () => useQuery(GET_USER_PORTFOLIOS)
 
 // FORUM ACTIONS
 
+export const useGetTopicBySlug = (options) => useQuery(TOPIC_BY_SLUG, options)
 export const useGetForumCategories = () => useQuery(FORUM_CATEGORIES)
 export const useGetTopicsByCategory = (options) =>
     useQuery(TOPICS_BY_CATEGORY, options)
 
-export const useCreateTopic = () => useMutation(CREATE_TOPIC)
+export const useCreateTopic = () =>
+    useMutation(CREATE_TOPIC, {
+        update(cache, { data: { createTopic } }) {
+            try {
+                const { topicsByCategory } = cache.readQuery({
+                    query: TOPICS_BY_CATEGORY,
+                    variables: {
+                        category: createTopic.forumCategory.slug,
+                    },
+                })
+                cache.writeQuery({
+                    query: TOPICS_BY_CATEGORY,
+                    data: {
+                        topicsByCategory: [...topicsByCategory, createTopic],
+                    },
+                    variables: {
+                        category: createTopic.forumCategory.slug,
+                    },
+                })
+            } catch (e) {}
+        },
+    })
