@@ -1,4 +1,6 @@
-const PostItem = ({ post, className }) => {
+import { fromNow } from './../../utils/functions'
+
+const PostItem = ({ post, onReply, className, canCreate = false }) => {
     const { parent } = post
     return (
         <div className={`topic-post ${className}`}>
@@ -20,9 +22,11 @@ const PostItem = ({ post, className }) => {
                                     </span>
                                 </div>
                                 <div className="date-container">
-                                    <span className="date">
-                                        {post.createdAt}
-                                    </span>
+                                    {post.createdAt && (
+                                        <span className="date">
+                                            {fromNow(post.createdAt)}
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -56,7 +60,16 @@ const PostItem = ({ post, className }) => {
                             <section className="post-menu-area">
                                 <nav className="post-controls">
                                     <div className="actions">
-                                        <button className="btn">reply</button>
+                                        {onReply && (
+                                            <button
+                                                disabled={!canCreate}
+                                                onClick={() =>
+                                                    onReply({ ...post })
+                                                }
+                                                className="btn">
+                                                reply
+                                            </button>
+                                        )}
                                     </div>
                                 </nav>
                             </section>
