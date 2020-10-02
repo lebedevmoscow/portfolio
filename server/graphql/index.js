@@ -51,6 +51,7 @@ exports.createApolloServer = () => {
             signOut: Boolean
 
             createTopic(input: TopicInput): Topic
+            createPost(input: PostInput): Post
         }
     `
 

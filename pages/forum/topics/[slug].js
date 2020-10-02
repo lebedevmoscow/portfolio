@@ -2,6 +2,7 @@ import {
     useGetTopicBySlug,
     useGetPostsByTopic,
     useGetUser,
+    useCreatePost,
 } from './../../../apollo/actions'
 import BaseLayout from './../../../layouts/BaseLayout'
 import { useRouter } from 'next/router'
@@ -9,7 +10,8 @@ import withApollo from './../../../hoc/withApollo'
 import { getDataFromTree } from '@apollo/react-ssr'
 import PostItem from './../../../components/forum/PostItem'
 import Replier from './../../../components/shared/Replier'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { toast } from 'react-toastify'
 
 const useInitialData = () => {
     const router = useRouter()
@@ -42,8 +44,27 @@ const PostPage = () => {
 }
 
 const Posts = ({ posts, topic, user }) => {
+    const pageEnd = useRef()
+    const [createPost, { error }] = useCreatePost()
     const [isReplierOpen, setReplierOpen] = useState(false)
     const [replyTo, setReplyTo] = useState(null)
+
+    const handleCreatePost = async (reply, resetReplier) => {
+        if (replyTo) {
+            reply.parent = replyTo._id
+        }
+
+        reply.topic = topic._id
+        await createPost({ variables: reply })
+        resetReplier()
+        setReplierOpen(false)
+        toast.success('Post has been created', { autoClose: 2000 })
+        scrollToBottom()
+    }
+
+    const scrollToBottom = () => {
+        return pageEnd.current.scrollIntoView({ behavior: 'smooth' })
+    }
 
     return (
         <section className="mb-5">
@@ -88,6 +109,7 @@ const Posts = ({ posts, topic, user }) => {
                     </div>
                 </div>
             </div>
+            <div ref={pageEnd}></div>
             <Replier
                 isOpen={isReplierOpen}
                 onClose={() => setReplierOpen(false)}
@@ -102,7 +124,7 @@ const Posts = ({ posts, topic, user }) => {
                         </a>
                     )
                 }}
-                onSubmit={() => {}}
+                onSubmit={handleCreatePost}
             />
         </section>
     )

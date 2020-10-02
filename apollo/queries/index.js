@@ -260,3 +260,19 @@ export const POSTS_BY_TOPIC = gql`
         }
     }
 `
+
+export const CREATE_POST = gql`
+    mutation CreatePost(
+        $content: String
+        $topic: String
+        $parent: String
+    ) {
+        createPost(input: {
+            content: $content
+            topic: $topic
+            parent: $parent
+        }) {
+            ${postResponse}
+        }
+    }
+`

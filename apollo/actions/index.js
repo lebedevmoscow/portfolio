@@ -13,6 +13,7 @@ import {
     CREATE_TOPIC,
     TOPIC_BY_SLUG,
     POSTS_BY_TOPIC,
+    CREATE_POST,
 } from './../queries/index'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { useLazyQuery } from 'react-apollo'
@@ -103,3 +104,4 @@ export const useCreateTopic = () =>
     })
 
 export const useGetPostsByTopic = (options) => useQuery(POSTS_BY_TOPIC, options)
+export const useCreatePost = () => useMutation(CREATE_POST)
