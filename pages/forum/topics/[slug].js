@@ -12,23 +12,26 @@ import PostItem from './../../../components/forum/PostItem'
 import Replier from './../../../components/shared/Replier'
 import { useState, useRef } from 'react'
 import { toast } from 'react-toastify'
+import AppPagination from './../../../components/shared/Pagination'
 
 const useInitialData = () => {
     const router = useRouter()
     const { slug } = router.query
     const { data: dataT } = useGetTopicBySlug({ variables: { slug } })
-    const { data: dataP } = useGetPostsByTopic({ variables: { slug } })
+    const { data: dataP, fetchMore } = useGetPostsByTopic({
+        variables: { slug },
+    })
     const { data: dataU } = useGetUser()
 
     const posts = (dataP && dataP.postsByTopic) || {}
     const topic = (dataT && dataT.topicBySlug) || {}
     const user = (dataU && dataU.user) || null
 
-    return { topic, posts, user }
+    return { topic, posts, user, fetchMore }
 }
 
 const PostPage = () => {
-    const { topic, posts, user } = useInitialData()
+    const { topic, posts, ...rest } = useInitialData()
     return (
         <BaseLayout>
             <section className="section-title">
@@ -38,12 +41,12 @@ const PostPage = () => {
                     </div>
                 </div>
             </section>
-            <Posts posts={posts} topic={topic} user={user} />
+            <Posts posts={posts} topic={topic} {...rest} />
         </BaseLayout>
     )
 }
 
-const Posts = ({ posts, topic, user }) => {
+const Posts = ({ posts, topic, user, fetchMore }) => {
     const pageEnd = useRef()
     const [createPost, { error }] = useCreatePost()
     const [isReplierOpen, setReplierOpen] = useState(false)
@@ -56,7 +59,18 @@ const Posts = ({ posts, topic, user }) => {
 
         reply.topic = topic._id
         await createPost({ variables: reply })
+        fetchMore({
+            updateQuery: (previousResults, { fetchMoreResult }) => {
+                return Object.assign({}, previousResults, {
+                    postsByTopic: [...fetchMoreResult.postsByTopic],
+                })
+            },
+        })
         resetReplier()
+        cleanup()
+    }
+
+    const cleanup = () => {
         setReplierOpen(false)
         toast.success('Post has been created', { autoClose: 2000 })
         scrollToBottom()
@@ -106,6 +120,9 @@ const Posts = ({ posts, topic, user }) => {
                                 </button>
                             </div>
                         )}
+                        <div className="pagination-container ml-auto">
+                            <AppPagination />
+                        </div>
                     </div>
                 </div>
             </div>
