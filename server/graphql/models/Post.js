@@ -7,12 +7,15 @@ class Post {
         this.user = user
     }
 
-    getAllByTopic(topic) {
-        return this.Model.find({ topic })
+    async getAllByTopic(topic) {
+        const count = await this.Model.countDocuments({ topic })
+        const posts = await this.Model.find({ topic })
             .sort('fullSlug')
             .populate('topic')
             .populate('user')
             .populate({ path: 'parent', populate: 'user' })
+
+        return { posts, count }
     }
 
     async create(post) {
@@ -35,9 +38,7 @@ class Post {
             post.fullSlug = fullSlugPart
         }
 
-        console.log('post', post)
         const createdPost = await this.Model.create(post)
-        console.log('created', createdPost)
         return this.Model.findById(createdPost._id)
             .populate('topic')
             .populate('user')
