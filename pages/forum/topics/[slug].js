@@ -18,6 +18,7 @@ const useInitialData = (slug, pagination) => {
     const { data: dataT } = useGetTopicBySlug({ variables: { slug } })
     const { data: dataP, fetchMore } = useGetPostsByTopic({
         variables: { slug, ...pagination },
+        pollInterval: 10000,
     })
     const { data: dataU } = useGetUser()
 
@@ -71,6 +72,7 @@ const Posts = ({ posts, topic, user, fetchMore, ...pagination }) => {
     const [createPost, { error }] = useCreatePost()
     const [isReplierOpen, setReplierOpen] = useState(false)
     const [replyTo, setReplyTo] = useState(null)
+    const { pageSize, count, pageNum } = pagination
 
     const handleCreatePost = async (reply, resetReplier) => {
         if (replyTo) {
@@ -78,11 +80,20 @@ const Posts = ({ posts, topic, user, fetchMore, ...pagination }) => {
         }
 
         reply.topic = topic._id
-        await createPost({ variables: reply })
+        let lastPage = Math.ceil(count / pageSize)
+
+        if (count === 0) {
+            lastPage = 1
+        }
+        lastPage === pageNum && (await createPost({ variables: reply }))
         fetchMore({
+            variables: {
+                pageSize,
+                pageNum: lastPage,
+            },
             updateQuery: (previousResults, { fetchMoreResult }) => {
                 return Object.assign({}, previousResults, {
-                    postsByTopic: [...fetchMoreResult.postsByTopic],
+                    postsByTopic: { ...fetchMoreResult.postsByTopic },
                 })
             },
         })
