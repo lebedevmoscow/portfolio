@@ -69,9 +69,12 @@ exports.forumQueries = {
         return ctx.models.Topic.getBySlug(slug)
     },
 
-    postsByTopic: async (root, { slug }, ctx) => {
+    postsByTopic: async (root, { slug, ...pagination }, ctx) => {
         const topic = await ctx.models.Topic.getBySlug(slug)
-        const posts = await ctx.models.Post.getAllByTopic(topic)
+        const posts = await ctx.models.Post.getAllByTopic({
+            topic,
+            ...pagination,
+        })
 
         return posts
     },
