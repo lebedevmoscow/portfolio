@@ -1,4 +1,3 @@
-# ssr-practice
 Playing around with Next
 
 This is the basic Portfolio page with custom forum, posts, auth system and so on.
